@@ -69,4 +69,19 @@ Cursor cursor = db.query(
             cursor.close();
         }
     }
+
+    private void insertBook() {
+        // Allows database to become writeable
+        SQLiteDatabase db = mDbHelper.getWritableDatabase();
+
+        android.content.ContentValues values = new android.content.ContentValues();
+        values.put(BookEntry.COLUMN_BOOK_TITLE, "Harry Potter");
+        values.put(BookEntry.COLUMN_BOOK_PRICE, "30.00");
+        values.put(BookEntry.COLUMN_BOOK_QUANTITY, BookEntry.BOOK_QUANTITY_3000);
+        values.put(BookEntry.COLUMN_BOOK_SUPPLIER_NAME, "Acme");
+        values.put(BookEntry.COLUMN_BOOK_SUPPLIER_PHONE, "555-1212");
+
+        long newRowId = db.insert(BookEntry.TABLE_NAME, null, values);
+        android.util.Log.v("Bookstore Activity", "New RowId " + newRowId);
+    }
 }
