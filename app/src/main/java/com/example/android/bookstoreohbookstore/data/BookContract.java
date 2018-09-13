@@ -10,7 +10,7 @@ public static abstract class BookEntry implements BaseColumns {
     public static final String COLUMN_BOOK_TITLE = "title";
     public static final String COLUMN_BOOK_PRICE = "price";
     public static final String COLUMN_BOOK_SUPPLIER_NAME = "supplier";
-    public static final String COLUMN_BOOK_SUPPLIER_PHONE = "supplier phone #";
+    public static final String COLUMN_BOOK_SUPPLIER_PHONE = "supplier_phone";
     public static final String COLUMN_BOOK_QUANTITY = "quantity";
 
     public static final int BOOK_QUANTITY_1000 = 1;
