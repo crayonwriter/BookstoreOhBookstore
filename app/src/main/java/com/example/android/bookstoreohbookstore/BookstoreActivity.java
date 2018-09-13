@@ -40,9 +40,24 @@ public class BookstoreActivity extends AppCompatActivity {
         // Create and/or open a database to read from it
         SQLiteDatabase db = mDbHelper.getReadableDatabase();
 
-        // Perform this raw SQL query "SELECT * FROM books"
-        // to get a Cursor that contains all rows from the books table.
-        Cursor cursor = db.rawQuery("SELECT * FROM " + BookEntry.TABLE_NAME, null);
+        String[] projection = {
+            android.provider.BaseColumns._ID,
+            BookEntry.COLUMN_BOOK_PRICE,
+            BookEntry.COLUMN_BOOK_SUPPLIER_NAME,
+            BookEntry.COLUMN_BOOK_SUPPLIER_PHONE,
+            BookEntry.COLUMN_BOOK_QUANTITY,
+            BookEntry.COLUMN_BOOK_TITLE
+    };
+
+Cursor cursor = db.query(
+    BookEntry.TABLE_NAME,   // The table to query
+    projection,             // The array of columns to return (pass null to get all)
+    null,              // The columns for the WHERE clause
+    null,          // The values for the WHERE clause
+    null,                   // don't group the rows
+    null,                   // don't filter by row groups
+    null               // The sort order
+    );
         try {
             // Display the number of rows in the Cursor (which reflects the number of rows in the
             // pets table in the database).
