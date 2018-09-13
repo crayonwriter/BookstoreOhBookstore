@@ -12,6 +12,11 @@ import com.example.android.bookstoreohbookstore.data.BookDbHelper;
 
 public class BookstoreActivity extends AppCompatActivity {
 
+    /**
+     * Database helper that will provide us access to the database
+     */
+    private BookDbHelper mDbHelper;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -22,9 +27,6 @@ public class BookstoreActivity extends AppCompatActivity {
         mDbHelper = new BookDbHelper(this);
         displayDatabaseInfo();
     }
-
-    /** Database helper that will provide us access to the database */
-    private BookDbHelper mDbHelper;
 
     @Override
     protected void onStart() {
