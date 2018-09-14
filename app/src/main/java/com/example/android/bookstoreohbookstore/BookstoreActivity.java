@@ -4,6 +4,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.TextView;
 
 import com.example.android.bookstoreohbookstore.data.BookContract;
@@ -31,6 +32,7 @@ public class BookstoreActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
+        insertBook();
         displayDatabaseInfo();
     }
 
@@ -65,7 +67,7 @@ public class BookstoreActivity extends AppCompatActivity {
 
         try {
             //This is the header for the limited UI
-            displayView.setText("The books table contains " + cursor.getCount() + " books.\n\n");
+            displayView.setText("The books table contains " + cursor.getCount() + " book(s).\n\n");
             displayView.append(BookEntry._ID + " - "
                     + BookEntry.COLUMN_BOOK_TITLE + " - "
                     + BookEntry.COLUMN_BOOK_PRICE + " - "
@@ -122,6 +124,10 @@ public class BookstoreActivity extends AppCompatActivity {
         values.put(BookEntry.COLUMN_BOOK_SUPPLIER_PHONE, "555-1212");
 
         long newRowId = db.insert(BookEntry.TABLE_NAME, null, values);
-        android.util.Log.v("Bookstore Activity", "New RowId " + newRowId);
+        if (newRowId != -1) {
+            android.util.Log.v("BookstoreActivity", "Data inserted successfully with row ID " + newRowId);
+        } else {
+            android.util.Log.v("BookstoreActivity", "Insert unsuccessful");
+        }
     }
 }
