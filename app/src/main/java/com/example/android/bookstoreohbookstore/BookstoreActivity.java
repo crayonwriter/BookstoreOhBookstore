@@ -43,29 +43,66 @@ public class BookstoreActivity extends AppCompatActivity {
         SQLiteDatabase db = mDbHelper.getReadableDatabase();
 
         String[] projection = {
-            android.provider.BaseColumns._ID,
-            BookEntry.COLUMN_BOOK_PRICE,
-            BookEntry.COLUMN_BOOK_SUPPLIER_NAME,
-            BookEntry.COLUMN_BOOK_SUPPLIER_PHONE,
-            BookEntry.COLUMN_BOOK_QUANTITY,
-            BookEntry.COLUMN_BOOK_TITLE
-    };
+                android.provider.BaseColumns._ID,
+                BookEntry.COLUMN_BOOK_PRICE,
+                BookEntry.COLUMN_BOOK_SUPPLIER_NAME,
+                BookEntry.COLUMN_BOOK_SUPPLIER_PHONE,
+                BookEntry.COLUMN_BOOK_QUANTITY,
+                BookEntry.COLUMN_BOOK_TITLE
+        };
 
-Cursor cursor = db.query(
-    BookEntry.TABLE_NAME,
-    projection,
-    null,
-    null,
-    null,
-    null,
-    null
+        Cursor cursor = db.query(
+                BookEntry.TABLE_NAME,
+                projection,
+                null,
+                null,
+                null,
+                null,
+                null
         );
 
+        TextView displayView = (TextView) findViewById(R.id.text_view_book);
+
         try {
-            // Display the number of rows in the Cursor (which reflects the number of rows in the
-            // pets table in the database).
-            TextView displayView = (TextView) findViewById(R.id.text_view_book);
-            displayView.setText("Number of rows in book database table: " + cursor.getCount());
+            //This is the header for the limited UI
+            displayView.setText("The books table contains " + cursor.getCount() + " books.\n\n");
+            displayView.append(BookEntry._ID + " - "
+                    + BookEntry.COLUMN_BOOK_TITLE + " - "
+                    + BookEntry.COLUMN_BOOK_PRICE + " - "
+                    + BookEntry.COLUMN_BOOK_SUPPLIER_NAME + " - "
+                    + BookEntry.COLUMN_BOOK_SUPPLIER_PHONE + " - "
+                    + BookEntry.COLUMN_BOOK_QUANTITY + "\n"
+            );
+
+            // Figure out the index of each column
+            int idColumnIndex = cursor.getColumnIndex(BookEntry._ID);
+            int titleColumnIndex = cursor.getColumnIndex(BookEntry.COLUMN_BOOK_TITLE);
+            int priceColumnIndex = cursor.getColumnIndex(BookEntry.COLUMN_BOOK_PRICE);
+            int supplierNameColumnIndex = cursor.getColumnIndex(BookEntry.COLUMN_BOOK_SUPPLIER_NAME);
+            int supplierPhoneColumnIndex = cursor.getColumnIndex(BookEntry.COLUMN_BOOK_SUPPLIER_PHONE);
+            int quantityColumnIndex = cursor.getColumnIndex(BookEntry.COLUMN_BOOK_QUANTITY);
+
+            // Iterate through all the returned rows in the cursor
+            while (cursor.moveToNext()) {
+                // Use that index to extract the String or Int value of the word
+                // at the current row the cursor is on.
+                int currentID = cursor.getInt(idColumnIndex);
+                String currentTitle = cursor.getString(titleColumnIndex);
+                int currentPrice = cursor.getInt(priceColumnIndex);
+                String currentSupplierName = cursor.getString(supplierNameColumnIndex);
+                String currentSupplierPhone = cursor.getString(supplierPhoneColumnIndex);
+                int currentQuantity = cursor.getInt(quantityColumnIndex);
+
+                // Display the values from each column of the current row in the cursor in the TextView
+                displayView.append(("\n"
+                        + currentID + " - "
+                        + currentTitle + " - "
+                        + currentPrice + " - "
+                        + currentSupplierName + " - "
+                        + currentSupplierPhone + " - "
+                        + currentQuantity));
+            }
+
         } finally {
             // Always close the cursor when you're done reading from it. This releases all its
             // resources and makes it invalid.
