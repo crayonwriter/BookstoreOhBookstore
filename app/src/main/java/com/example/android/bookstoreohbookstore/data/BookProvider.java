@@ -2,6 +2,7 @@ package com.example.android.bookstoreohbookstore.data;
 
 import android.content.ContentProvider;
 import android.content.ContentValues;
+import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
 
@@ -9,6 +10,9 @@ import android.net.Uri;
  * {@link ContentProvider} for bookstore app.
  */
 public class BookProvider extends ContentProvider {
+
+    //Global BookDbHelper object created
+    private BookDbHelper mBookDbHelper;
 
     /** Tag for the log messages */
     public static final String LOG_TAG = com.example.android.bookstoreohbookstore.data.BookProvider.class.getSimpleName();
@@ -18,9 +22,8 @@ public class BookProvider extends ContentProvider {
      */
     @Override
     public boolean onCreate() {
-        // TODO: Create and initialize a BookDbHelper object to gain access to the books database.
-        // Make sure the variable is a global variable, so it can be referenced from other
-        // ContentProvider methods.
+    mBookDbHelper = new BookDbHelper(getContext());
+        // BookDbHelper object to gain access to the books database.
         return true;
     }
 
