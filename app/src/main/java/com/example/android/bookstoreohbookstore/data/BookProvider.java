@@ -11,7 +11,7 @@ import android.net.Uri;
  */
 public class BookProvider extends ContentProvider {
 
-    //Global BookDbHelper object created
+    //Global database helper object
     private BookDbHelper mBookDbHelper;
 
     /** Tag for the log messages */
