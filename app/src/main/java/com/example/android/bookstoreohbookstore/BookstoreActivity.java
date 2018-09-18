@@ -41,7 +41,6 @@ public class BookstoreActivity extends AppCompatActivity {
      * the bookstore database.
      */
     private void displayDatabaseInfo() {
-        // Create and/or open a database to read from it
 
         String[] projection = {
                 android.provider.BaseColumns._ID,
@@ -52,19 +51,16 @@ public class BookstoreActivity extends AppCompatActivity {
                 BookEntry.COLUMN_BOOK_TITLE
         };
 
-       Cursor cursor = getContentResolver().query(
-               BookEntry.CONTENT_URI,
-               projection,
-               null,
-               null,
-               null);
+        Cursor cursor = getContentResolver().query(
+                BookEntry.CONTENT_URI, projection, null, null, null);
 
         TextView displayView = (TextView) findViewById(R.id.text_view_book);
 
         try {
             //This is the header for the limited UI
             displayView.setText("The books table contains " + cursor.getCount() + " book(s).\n\n");
-            displayView.append(BookEntry._ID + " - "
+            displayView.append(
+                      BookEntry._ID + " - "
                     + BookEntry.COLUMN_BOOK_TITLE + " - "
                     + BookEntry.COLUMN_BOOK_PRICE + " - "
                     + BookEntry.COLUMN_BOOK_SUPPLIER_NAME + " - "
