@@ -42,7 +42,6 @@ public class BookstoreActivity extends AppCompatActivity {
      */
     private void displayDatabaseInfo() {
         // Create and/or open a database to read from it
-        SQLiteDatabase db = mDbHelper.getReadableDatabase();
 
         String[] projection = {
                 android.provider.BaseColumns._ID,
@@ -53,15 +52,12 @@ public class BookstoreActivity extends AppCompatActivity {
                 BookEntry.COLUMN_BOOK_TITLE
         };
 
-        Cursor cursor = db.query(
-                BookEntry.TABLE_NAME,
-                projection,
-                null,
-                null,
-                null,
-                null,
-                null
-        );
+       Cursor cursor = getContentResolver().query(
+               BookEntry.CONTENT_URI,
+               projection,
+               null,
+               null,
+               null);
 
         TextView displayView = (TextView) findViewById(R.id.text_view_book);
 
