@@ -39,7 +39,7 @@ public class BookProvider extends ContentProvider {
     }
 
     //Global database helper object
-    private BookDbHelper mBookDbHelper;
+    private BookDbHelper mDbHelper;
 
     /** Tag for the log messages */
     public static final String LOG_TAG = com.example.android.bookstoreohbookstore.data.BookProvider.class.getSimpleName();
@@ -49,7 +49,7 @@ public class BookProvider extends ContentProvider {
      */
     @Override
     public boolean onCreate() {
-    mBookDbHelper = new BookDbHelper(getContext());
+    mDbHelper = new BookDbHelper(getContext());
         // BookDbHelper object to gain access to the books database.
         return true;
     }
@@ -60,14 +60,13 @@ public class BookProvider extends ContentProvider {
     @Override
     public Cursor query(Uri uri, String[] projection, String selection, String[] selectionArgs,
                         String sortOrder) {
-        SQLiteDatabase database = mBookDbHelper.getReadableDatabase();
+        SQLiteDatabase database = mDbHelper.getReadableDatabase();
 
         Cursor cursor;
 
         int match = sUriMatcher.match(uri);
         switch (match) {
             case BOOKS:
-                //TODO Perform database query on books table
                 cursor = database.query(BookEntry.TABLE_NAME,
                         projection,
                         selection,

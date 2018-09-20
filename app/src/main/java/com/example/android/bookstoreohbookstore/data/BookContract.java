@@ -20,7 +20,7 @@ public final class BookContract {
     public static abstract class BookEntry implements BaseColumns {
         public static final Uri CONTENT_URI = Uri.withAppendedPath(BASE_CONTENT_URI, PATH_BOOKS);
         public static final String TABLE_NAME = "books";
-        public static final String _Id = BaseColumns._ID;
+        public static final String _ID = BaseColumns._ID;
         public static final String COLUMN_BOOK_TITLE = "title";
         public static final String COLUMN_BOOK_PRICE = "price";
         public static final String COLUMN_BOOK_SUPPLIER_NAME = "supplier";
