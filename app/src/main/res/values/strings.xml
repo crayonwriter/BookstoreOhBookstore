@@ -1,3 +1,17 @@
 <resources>
     <string name="app_name">BookstoreOhBookstore</string>
+    <string name="category_overview">Book Entry</string>
+    <string name="hint_book_name">Title</string>
+    <string name="hint_book_title">Title</string>
+    <string name="hint_book_price">Price</string>
+    <string name="category_quantity">Quantity</string>
+    <string name="supplier_name">Supplier</string>
+    <string name="hint_supplier_name">Supplier</string>
+    <string name="quantity_3000">3000</string>
+    <string name="quantity_2000">2000</string>
+    <string name="action_insert_dummy_data">Insert Dummy Data</string>
+    <string name="action_delete_all_books">Delete All Books</string>
+    <string name="action_save">Save</string>
+    <string name="action_delete">Delete</string>
+    <string name="bookstore_editor_add_book">Add a New Book</string>
 </resources>

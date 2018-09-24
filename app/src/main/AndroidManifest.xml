@@ -16,8 +16,17 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".BookstoreEditor"
+            android:label="@string/bookstore_editor_add_book"
+            android:parentActivityName=".BookstoreActivity">
+            <!-- Parent activity meta-data to support 4.0 and lower -->
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".BookstoreActivity" />
+        </activity>
         <provider
-            android:authorities=".com.example.android.bookstoreohbookstore"
+            android:authorities="com.example.android.bookstoreohbookstore"
             android:name=".data.BookProvider"
             android:exported="false" />
         <!--this will only be used in the app, won't need to export to or from other apps-->

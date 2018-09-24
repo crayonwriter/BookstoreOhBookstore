@@ -1,11 +1,14 @@
 package com.example.android.bookstoreohbookstore;
-import android.content.ContentValues;
+
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
+import android.support.design.widget.FloatingActionButton;
+import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 import android.widget.TextView;
+
 import com.example.android.bookstoreohbookstore.data.BookContract.BookEntry;
 import com.example.android.bookstoreohbookstore.data.BookDbHelper;
 
@@ -15,7 +18,35 @@ public class BookstoreActivity extends AppCompatActivity {
      * Database helper that will provide us access to the database
      */
     private BookDbHelper mDbHelper;
-    private void insertBook () {
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.bookstore_activity);
+
+        // Setup FAB to open EditorActivity
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(BookstoreActivity.this, BookstoreEditor.class);
+                startActivity(intent);
+            }
+        });
+        // To access our database, we instantiate our subclass of SQLiteOpenHelper
+        // and pass the context, which is the current activity.
+        mDbHelper = new BookDbHelper(this);
+        displayDatabaseInfo();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        insertBook();
+        displayDatabaseInfo();
+    }
+
+    private void insertBook() {
         // Allows database to become writeable
         SQLiteDatabase db = mDbHelper.getWritableDatabase();
 
@@ -34,23 +65,6 @@ public class BookstoreActivity extends AppCompatActivity {
         }
     }
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.bookstore_activity);
-
-        // To access our database, we instantiate our subclass of SQLiteOpenHelper
-        // and pass the context, which is the current activity.
-        mDbHelper = new BookDbHelper(this);
-        displayDatabaseInfo();
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        insertBook();
-        displayDatabaseInfo();
-    }
 
     /**
      * Temporary helper method to display information in the onscreen TextView about the state of
@@ -67,8 +81,6 @@ public class BookstoreActivity extends AppCompatActivity {
                 BookEntry.COLUMN_BOOK_QUANTITY,
 
         };
-
-
 
         Cursor cursor = null;
         try {
@@ -101,7 +113,7 @@ public class BookstoreActivity extends AppCompatActivity {
                         int quantityColumnIndex = cursor.getColumnIndex(BookEntry.COLUMN_BOOK_QUANTITY);
 
                         // Iterate through all the returned rows in the cursor
-                        while (cursor.moveToNext()) {
+                        {
                             // Use that index to extract the String or Int value of the word
                             // at the current row the cursor is on.
                             int currentID = cursor.getInt(idColumnIndex);
@@ -127,7 +139,9 @@ public class BookstoreActivity extends AppCompatActivity {
         } finally {
             // Always close the cursor when you're done reading from it. This releases all its
             // resources and makes it invalid.
+            assert cursor != null;
             cursor.close();
         }
     }
 }
+
