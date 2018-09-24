@@ -104,7 +104,12 @@
                 android:hint="@string/hint_supplier_name"
                 android:inputType="text" />
 
-
+            <EditText
+                android:id="@+id/edit_supplier_phone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/supplier_phone"
+                android:inputType="phone" />
         </RelativeLayout>
     </LinearLayout>
 </LinearLayout>

@@ -25,22 +25,27 @@ import com.example.android.bookstoreohbookstore.data.BookDbHelper;
 public class BookstoreEditor extends AppCompatActivity {
 
     /**
-     * EditText field to enter the pet's name
+     * EditText field to enter the book's title
      */
     private EditText mTitleEditText;
 
     /**
-     * EditText field to enter the pet's breed
+     * EditText field to enter the book's price
      */
     private EditText mPriceEditText;
 
     /**
-     * EditText field to enter the pet's weight
+     * EditText field to enter the book's supplier
      */
     private EditText mSupplierNameEditText;
 
     /**
-     * EditText field to enter the pet's gender
+     * EditText field to enter the book supplier's phone number
+     */
+    private EditText mSupplierPhoneEditText;
+
+    /**
+     * EditText field to enter the quantity of books
      */
     private Spinner mQuantitySpinner;
 
@@ -59,6 +64,7 @@ public class BookstoreEditor extends AppCompatActivity {
         mTitleEditText = (EditText) findViewById(R.id.edit_book_title);
         mPriceEditText = (EditText) findViewById(R.id.edit_book_price);
         mSupplierNameEditText = (EditText) findViewById(R.id.edit_supplier_name);
+        mSupplierPhoneEditText = (EditText) findViewById(R.id.edit_supplier_phone);
         mQuantitySpinner = (Spinner) findViewById(R.id.spinner_quantity);
 
         setupSpinner();
@@ -112,12 +118,14 @@ public class BookstoreEditor extends AppCompatActivity {
         String titleString = mTitleEditText.getText().toString().trim();
         String priceString = mPriceEditText.getText().toString().trim();
         String supplierNameString = mSupplierNameEditText.getText().toString().trim();
+        String supplierPhoneString = mSupplierPhoneEditText.getText().toString().trim();
         int price = Integer.parseInt(priceString);
 
         ContentValues values = new ContentValues();
         values.put(BookEntry.COLUMN_BOOK_TITLE, titleString);
         values.put(BookEntry.COLUMN_BOOK_PRICE, priceString);
         values.put(BookEntry.COLUMN_BOOK_SUPPLIER_NAME, supplierNameString);
+        values.put(BookEntry.COLUMN_BOOK_SUPPLIER_PHONE, supplierPhoneString);
         values.put(BookEntry.COLUMN_BOOK_QUANTITY, mQuantity);
 
         long newRowId = db.insert(BookEntry.TABLE_NAME, null, values);

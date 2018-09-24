@@ -14,4 +14,5 @@
     <string name="action_save">Save</string>
     <string name="action_delete">Delete</string>
     <string name="bookstore_editor_add_book">Add a New Book</string>
+    <string name="supplier_phone">Supplier Phone Number</string>
 </resources>
