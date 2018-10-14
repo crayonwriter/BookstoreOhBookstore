@@ -2,6 +2,7 @@ package com.example.android.bookstoreohbookstore;
 
 import android.content.ContentValues;
 import android.database.sqlite.SQLiteDatabase;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
@@ -92,11 +93,11 @@ public class BookstoreEditor extends AppCompatActivity {
                 String selection = (String) parent.getItemAtPosition(position);
                 if (!TextUtils.isEmpty(selection)) {
                     if (selection.equals(getString(R.string.quantity_3000))) {
-                        mQuantity = 3; // 3000
+                        mQuantity = BookEntry.BOOK_QUANTITY_3000; // 3000
                     } else if (selection.equals(getString(R.string.quantity_2000))) {
-                        mQuantity = 2; // 2000
+                        mQuantity = BookEntry.BOOK_QUANTITY_2000; // 2000
                     } else {
-                        mQuantity = 1; // 1000
+                        mQuantity = BookEntry.BOOK_QUANTITY_1000; // 1000
                     }
                 }
             }
@@ -109,12 +110,7 @@ public class BookstoreEditor extends AppCompatActivity {
         });
     }
 
-    private void insertPet() {
-        BookDbHelper mDbHelper = new BookDbHelper(this);
-
-        // Allows database to become writeable
-        SQLiteDatabase db = mDbHelper.getWritableDatabase();
-
+    private void insertBook() {
         String titleString = mTitleEditText.getText().toString().trim();
         String priceString = mPriceEditText.getText().toString().trim();
         String supplierNameString = mSupplierNameEditText.getText().toString().trim();
@@ -128,15 +124,17 @@ public class BookstoreEditor extends AppCompatActivity {
         values.put(BookEntry.COLUMN_BOOK_SUPPLIER_PHONE, supplierPhoneString);
         values.put(BookEntry.COLUMN_BOOK_QUANTITY, mQuantity);
 
-        long newRowId = db.insert(BookEntry.TABLE_NAME, null, values);
+        Uri newUri = getContentResolver().insert(BookEntry.CONTENT_URI, values);
 
         // Show a toast message depending on whether or not the insertion was successful
-        if (newRowId == -1) {
-            // If the row ID is -1, then there was an error with insertion.
-            Toast.makeText(this, "Error with saving book", Toast.LENGTH_SHORT).show();
+        if (newUri == null) {
+            // If the new content URI is null, then there was an error with insertion.
+            Toast.makeText(this, getString(R.string.editor_insert_book_failed),
+                    Toast.LENGTH_SHORT).show();
         } else {
-            // Otherwise, the insertion was successful and we can display a toast with the row ID.
-            Toast.makeText(this, "Book saved with row id: " + newRowId, Toast.LENGTH_SHORT).show();
+            // Otherwise, the insertion was successful and we can display a toast.
+            Toast.makeText(this, getString(R.string.editor_insert_book_successful),
+                    Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -154,7 +152,7 @@ public class BookstoreEditor extends AppCompatActivity {
         switch (item.getItemId()) {
             // Respond to a click on the "Save" menu_bookstore option
             case R.id.action_save:
-                insertPet();
+                insertBook();
                 finish();
                 return true;
             // Respond to a click on the "Delete" menu_bookstore option

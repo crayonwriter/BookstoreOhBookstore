@@ -3,9 +3,13 @@ package com.example.android.bookstoreohbookstore;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
@@ -13,11 +17,6 @@ import com.example.android.bookstoreohbookstore.data.BookContract.BookEntry;
 import com.example.android.bookstoreohbookstore.data.BookDbHelper;
 
 public class BookstoreActivity extends AppCompatActivity {
-
-    /**
-     * Database helper that will provide us access to the database
-     */
-    private BookDbHelper mDbHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,36 +34,14 @@ public class BookstoreActivity extends AppCompatActivity {
         });
         // To access our database, we instantiate our subclass of SQLiteOpenHelper
         // and pass the context, which is the current activity.
-        mDbHelper = new BookDbHelper(this);
         displayDatabaseInfo();
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        insertBook();
         displayDatabaseInfo();
     }
-
-    private void insertBook() {
-        // Allows database to become writeable
-        SQLiteDatabase db = mDbHelper.getWritableDatabase();
-
-        android.content.ContentValues values = new android.content.ContentValues();
-        values.put(BookEntry.COLUMN_BOOK_TITLE, "Harry Potter");
-        values.put(BookEntry.COLUMN_BOOK_PRICE, "30.00");
-        values.put(BookEntry.COLUMN_BOOK_QUANTITY, BookEntry.BOOK_QUANTITY_3000);
-        values.put(BookEntry.COLUMN_BOOK_SUPPLIER_NAME, "Acme");
-        values.put(BookEntry.COLUMN_BOOK_SUPPLIER_PHONE, "555-1212");
-
-        long newRowId = db.insert(BookEntry.TABLE_NAME, null, values);
-        if (newRowId != -1) {
-            android.util.Log.v("BookstoreActivity", "Data inserted successfully with row ID " + newRowId);
-        } else {
-            android.util.Log.v("BookstoreActivity", "Insert unsuccessful");
-        }
-    }
-
 
     /**
      * Temporary helper method to display information in the onscreen TextView about the state of
@@ -142,6 +119,44 @@ public class BookstoreActivity extends AppCompatActivity {
             assert cursor != null;
             cursor.close();
         }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu options from the res/menu/menu_bookstore.xml file.
+        // This adds menu items to the app bar.
+        getMenuInflater().inflate(R.menu.menu_bookstore, menu);
+        return true;
+    }
+
+    private void insertBook() {
+
+        android.content.ContentValues values = new android.content.ContentValues();
+        values.put(BookEntry.COLUMN_BOOK_TITLE, "Harry Potter");
+        values.put(BookEntry.COLUMN_BOOK_PRICE, "30.00");
+        values.put(BookEntry.COLUMN_BOOK_QUANTITY, BookEntry.BOOK_QUANTITY_3000);
+        values.put(BookEntry.COLUMN_BOOK_SUPPLIER_NAME, "Acme");
+        values.put(BookEntry.COLUMN_BOOK_SUPPLIER_PHONE, "555-1212");
+
+        Uri newUri = getContentResolver().insert(BookEntry.CONTENT_URI, values);
+        Log.v("Catalog Activity", "New Row" + newUri);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // User clicked on a menu option in the app bar overflow menu
+        switch (item.getItemId()) {
+            // Respond to a click on the "Insert dummy data" menu option
+            case R.id.action_insert_dummy_data:
+                insertBook();
+                displayDatabaseInfo();
+                return true;
+            // Respond to a click on the "Delete all entries" menu option
+            case R.id.action_delete_all_entries:
+                // Do nothing for now
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }
 

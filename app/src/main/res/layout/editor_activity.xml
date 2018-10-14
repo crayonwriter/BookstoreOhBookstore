@@ -25,10 +25,8 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="2"
-            android:orientation="vertical"
-            android:paddingLeft="4dp">
+            android:orientation="vertical">
 
-            <!-- Title field -->
             <EditText
                 android:id="@+id/edit_book_title"
                 android:layout_width="match_parent"
@@ -37,12 +35,25 @@
                 android:inputType="textCapWords" />
 
             <!-- Price field -->
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
             <EditText
                 android:id="@+id/edit_book_price"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/hint_book_price"
                 android:inputType="textCapWords" />
+                <!-- Units for price (dollars) -->
+                <TextView
+                    android:id="@+id/label_price_units"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:paddingTop="16dp"
+                    android:text="@string/price_unit" />
+            </RelativeLayout>
+
         </LinearLayout>
     </LinearLayout>
 
@@ -76,7 +87,7 @@
         </LinearLayout>
     </LinearLayout>
 
-    <!-- Supplier name category -->
+    <!-- SUPPLIER NAME CATEGORY -->
     <LinearLayout
         android:id="@+id/container_supplier_name"
         android:layout_width="match_parent"
@@ -85,31 +96,29 @@
 
         <!-- Label -->
         <TextView
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/supplier_name" />
 
-        <!-- Input fields -->
-        <RelativeLayout
+        <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="2"
-            android:paddingLeft="4dp">
+            android:orientation="vertical">
 
-            <!-- Supplier name field -->
             <EditText
                 android:id="@+id/edit_supplier_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/hint_supplier_name"
-                android:inputType="text" />
+                android:inputType="textCapWords" />
 
             <EditText
                 android:id="@+id/edit_supplier_phone"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/supplier_phone"
+                android:hint="@string/hint_supplier_phone"
                 android:inputType="phone" />
-        </RelativeLayout>
+        </LinearLayout>
     </LinearLayout>
 </LinearLayout>
