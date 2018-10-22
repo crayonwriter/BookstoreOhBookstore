@@ -1,5 +1,6 @@
 package com.example.android.bookstoreohbookstore.data;
 
+import android.content.ContentResolver;
 import android.net.Uri;
 import android.provider.BaseColumns;
 
@@ -29,5 +30,23 @@ public final class BookContract {
         public static final int BOOK_QUANTITY_1000 = 1;
         public static final int BOOK_QUANTITY_2000 = 2;
         public static final int BOOK_QUANTITY_3000 = 3;
+
+        /**
+         * The MIME type of the {@link #CONTENT_URI} for a list of books.
+         */
+        public static final String CONTENT_LIST_TYPE =
+                ContentResolver.CURSOR_DIR_BASE_TYPE + "/" + CONTENT_AUTHORITY + "/" + PATH_BOOKS;
+        /**
+         * The MIME type of the {@link #CONTENT_URI} for a single book.
+         */
+        public static final String CONTENT_ITEM_TYPE =
+                ContentResolver.CURSOR_ITEM_BASE_TYPE + "/" + CONTENT_AUTHORITY + "/" + PATH_BOOKS;
+
+        public static boolean isValidQuantity(int quantity) {
+            if (quantity == BOOK_QUANTITY_1000 || quantity == BOOK_QUANTITY_2000 || quantity == BOOK_QUANTITY_3000) {
+                return true;
+            }
+            return false;
+        }
     }
 }
