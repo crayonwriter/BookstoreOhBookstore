@@ -6,6 +6,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CursorAdapter;
+import android.widget.TextView;
+
+import com.example.android.bookstoreohbookstore.data.BookContract;
 
 /**
  * {@link BookCursorAdapter} is an adapter for a list or grid view
@@ -38,8 +41,8 @@ public class BookCursorAdapter extends CursorAdapter {
     }
 
     /**
-     * This method binds the pet data (in the current row pointed to by cursor) to the given
-     * list item layout. For example, the name for the current pet can be set on the name TextView
+     * This method binds the book data (in the current row pointed to by cursor) to the given
+     * list item layout. For example, the name for the current book can be set on the name TextView
      * in the list item layout.
      *
      * @param view    Existing view, returned earlier by newView() method
@@ -49,6 +52,20 @@ public class BookCursorAdapter extends CursorAdapter {
      */
     @Override
     public void bindView(View view, Context context, Cursor cursor) {
-        // TODO: Fill out this method
+        //Find individual views that we want to modify in the list item view
+        TextView textViewTitle = (TextView) view.findViewById(R.id.title);
+        TextView textViewPrice = (TextView) view.findViewById(R.id.price);
+
+        // Find the columns of book attributes that we're interested in
+        int titleColumnIndex = cursor.getColumnIndex(BookContract.BookEntry.COLUMN_BOOK_TITLE);
+        int priceColumnIndex = cursor.getColumnIndex(BookContract.BookEntry.COLUMN_BOOK_PRICE);
+
+        //Read the book attributes from the cursor for the current book
+        String bookTitle = cursor.getString(titleColumnIndex);
+        String bookPrice = cursor.getString(priceColumnIndex);
+
+        //Update the textviews with the attributes for the current book
+        textViewTitle.setText(bookTitle);
+        textViewPrice.setText(bookPrice);
     }
 }
