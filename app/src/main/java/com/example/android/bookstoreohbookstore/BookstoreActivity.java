@@ -41,10 +41,11 @@ public class BookstoreActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-        // To access our database, we instantiate our subclass of SQLiteOpenHelper
-        // and pass the context, which is the current activity.
-
-        displayDatabaseInfo();
+        // Find the ListView which will be populated with the pet data
+        ListView bookListView = (ListView) findViewById(R.id.listview_book);
+        // Find and set empty view on the ListView, so that it only shows when the list has 0 items.
+        View emptyView = findViewById(R.id.empty_view);
+        bookListView.setEmptyView(emptyView);
     }
 
     @Override

@@ -27,4 +27,6 @@
     <string name="price_unit">dollars</string>
     <string name="editor_insert_book_successful">Book saved!</string>
     <string name="editor_insert_book_failed">Error saving book</string>
+    <string name="empty_view_title_text">There are no books entered yet</string>
+    <string name="empty_view_subtitle_text">Get started by adding a book</string>
 </resources>
