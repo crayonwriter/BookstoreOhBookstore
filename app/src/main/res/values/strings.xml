@@ -22,6 +22,8 @@
     <string name="action_save">Save</string>
     <string name="action_delete">Delete</string>
     <string name="bookstore_editor_add_book">Add a New Book</string>
+    <string name="bookstore_editor_edit_book">Edit Book</string>
+
     <string name="supplier_phone">Supplier Phone Number</string>
     <string name="price_label">Price</string>
     <string name="price_unit">dollars</string>
@@ -29,4 +31,6 @@
     <string name="editor_insert_book_failed">Error saving book</string>
     <string name="empty_view_title_text">There are no books entered yet</string>
     <string name="empty_view_subtitle_text">Get started by adding a book</string>
+    <string name="editor_update_book_failed">Book Update Failed</string>
+    <string name="editor_update_book_successful">Book Updated Successfully</string>
 </resources>

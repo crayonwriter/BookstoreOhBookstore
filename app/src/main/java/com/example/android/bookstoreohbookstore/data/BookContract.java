@@ -27,9 +27,9 @@ public final class BookContract {
         public static final String COLUMN_BOOK_SUPPLIER_NAME = "supplier";
         public static final String COLUMN_BOOK_SUPPLIER_PHONE = "supplier_phone";
         public static final String COLUMN_BOOK_QUANTITY = "quantity";
-        public static final int BOOK_QUANTITY_1000 = 1;
-        public static final int BOOK_QUANTITY_2000 = 2;
-        public static final int BOOK_QUANTITY_3000 = 3;
+        public static final int BOOK_QUANTITY_1000 = 0;
+        public static final int BOOK_QUANTITY_2000 = 1;
+        public static final int BOOK_QUANTITY_3000 = 2;
 
         /**
          * The MIME type of the {@link #CONTENT_URI} for a list of books.

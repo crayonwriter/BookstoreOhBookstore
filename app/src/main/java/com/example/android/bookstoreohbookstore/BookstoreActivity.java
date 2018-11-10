@@ -1,8 +1,13 @@
 package com.example.android.bookstoreohbookstore;
 
+import android.content.ContentUris;
 import android.content.Intent;
 import android.content.ContentValues;
 import android.net.Uri;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.CursorLoader;
+import android.support.v4.content.Loader;
+import android.widget.AdapterView;
 import android.widget.CursorAdapter;
 import android.util.Log;
 import android.view.Menu;
@@ -20,12 +25,9 @@ import android.widget.TextView;
 import com.example.android.bookstoreohbookstore.data.BookContract.BookEntry;
 import com.example.android.bookstoreohbookstore.data.BookDbHelper;
 
-public class BookstoreActivity extends AppCompatActivity {
-
-    /**
-     * Database helper that will provide us access to the database
-     */
-    private BookDbHelper mDbHelper;
+public class BookstoreActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor> {
+    private static final int BOOK_LOADER = 0;
+    BookCursorAdapter mCursorAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,43 +48,28 @@ public class BookstoreActivity extends AppCompatActivity {
         // Find and set empty view on the ListView, so that it only shows when the list has 0 items.
         View emptyView = findViewById(R.id.empty_view);
         bookListView.setEmptyView(emptyView);
-    }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-        displayDatabaseInfo();
-    }
+        mCursorAdapter = new BookCursorAdapter(this, null);
+        bookListView.setAdapter(mCursorAdapter);
 
-    /**
-     * Temporary helper method to display information in the onscreen TextView about the state of
-     * the bookstore database.
-     */
-    private void displayDatabaseInfo() {
+        //Setup item clicklistener
+        bookListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
+                // Create new intent to go to {@link EditorActivity}
+                Intent intent = new Intent(BookstoreActivity.this, BookstoreEditor.class);
+                Uri currentBookUri = ContentUris.withAppendedId(BookEntry.CONTENT_URI, id);
 
-        String[] projection = {
-                android.provider.BaseColumns._ID,
-                BookEntry.COLUMN_BOOK_TITLE,
-                BookEntry.COLUMN_BOOK_PRICE,
-                BookEntry.COLUMN_BOOK_SUPPLIER_NAME,
-                BookEntry.COLUMN_BOOK_SUPPLIER_PHONE,
-                BookEntry.COLUMN_BOOK_QUANTITY,
+                // Set the URI on the data field of the intent
+                intent.setData(currentBookUri);
 
-        };
+                // Launch the {@link BookstoreActivity} to display the data for the current book.
+                startActivity(intent);
+            }
+        });
 
-        Cursor cursor = getContentResolver().query(
-                BookEntry.CONTENT_URI, projection,
-                null,
-                null,
-                null
-        );
-
-        // Find ListView to populate
-        ListView listviewBook = (ListView) findViewById(R.id.listview_book);
-        // Setup cursor adapter using cursor from last step
-        BookCursorAdapter adapter = new BookCursorAdapter(this, cursor);
-        // Attach cursor adapter to the ListView
-        listviewBook.setAdapter(adapter);
+        // Kick off the loader
+        getSupportLoaderManager().initLoader(BOOK_LOADER, null, this);
     }
 
     @Override
@@ -92,17 +79,18 @@ public class BookstoreActivity extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.menu_bookstore, menu);
         return true;
     }
+
     private void insertBook() {
 
         ContentValues values = new android.content.ContentValues();
         values.put(BookEntry.COLUMN_BOOK_TITLE, "Harry Potter");
-        values.put(BookEntry.COLUMN_BOOK_PRICE, "30.00");
+        values.put(BookEntry.COLUMN_BOOK_PRICE, "30");
         values.put(BookEntry.COLUMN_BOOK_QUANTITY, BookEntry.BOOK_QUANTITY_3000);
         values.put(BookEntry.COLUMN_BOOK_SUPPLIER_NAME, "Acme");
-        values.put(BookEntry.COLUMN_BOOK_SUPPLIER_PHONE, "555-1212");
+        values.put(BookEntry.COLUMN_BOOK_SUPPLIER_PHONE, "3335551212");
 
         Uri newUri = getContentResolver().insert(BookEntry.CONTENT_URI, values);
-        Log.v("Catalog Activity", "New Row" + newUri);
+        Log.v("Bookstore Activity", "New Row" + newUri);
     }
 
     @Override
@@ -112,7 +100,6 @@ public class BookstoreActivity extends AppCompatActivity {
             // Respond to a click on the "Insert dummy data" menu option
             case R.id.action_insert_dummy_data:
                 insertBook();
-                displayDatabaseInfo();
                 return true;
             // Respond to a click on the "Delete all entries" menu option
             case R.id.action_delete_all_entries:
@@ -122,6 +109,29 @@ public class BookstoreActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
+        String[] projection = {
+                BookEntry._ID,
+                BookEntry.COLUMN_BOOK_TITLE,
+                BookEntry.COLUMN_BOOK_PRICE
+        };
+        return new CursorLoader(this,
+                BookEntry.CONTENT_URI,
+                projection,
+                null,
+                null,
+                null);
+    }
 
+    @Override
+    public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
+        mCursorAdapter.swapCursor(data);
+    }
+
+    @Override
+    public void onLoaderReset(Loader<Cursor> loader) {
+        mCursorAdapter.swapCursor(null);
+    }
 }
 

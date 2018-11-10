@@ -18,7 +18,6 @@
         </activity>
         <activity
             android:name=".BookstoreEditor"
-            android:label="@string/bookstore_editor_add_book"
             android:parentActivityName=".BookstoreActivity">
             <!-- Parent activity meta-data to support 4.0 and lower -->
             <meta-data
