@@ -82,7 +82,7 @@ public class BookstoreActivity extends AppCompatActivity implements LoaderManage
 
     private void insertBook() {
 
-        ContentValues values = new android.content.ContentValues();
+        ContentValues values = new ContentValues();
         values.put(BookEntry.COLUMN_BOOK_TITLE, "Harry Potter");
         values.put(BookEntry.COLUMN_BOOK_PRICE, "30");
         values.put(BookEntry.COLUMN_BOOK_QUANTITY, BookEntry.BOOK_QUANTITY_3000);
