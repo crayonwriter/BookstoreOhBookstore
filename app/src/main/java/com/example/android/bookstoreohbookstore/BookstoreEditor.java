@@ -113,7 +113,7 @@ public class BookstoreEditor extends AppCompatActivity implements LoaderManager.
         // Set the integer mSelected to the constant values
         mQuantitySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long l) {
                 String selection = (String) parent.getItemAtPosition(position);
                 if (!TextUtils.isEmpty(selection)) {
                     if (selection.equals(getString(R.string.quantity_3000))) {
@@ -129,7 +129,7 @@ public class BookstoreEditor extends AppCompatActivity implements LoaderManager.
             // Because AdapterView is an abstract class, onNothingSelected must be defined
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-                mQuantity = 0; // 1000
+                mQuantity = BookEntry.BOOK_QUANTITY_1000; // 1000
             }
         });
     }
@@ -279,13 +279,13 @@ public class BookstoreEditor extends AppCompatActivity implements LoaderManager.
             // Then call setSelection() so that option is displayed on screen as the current selection.
             switch (quantity) {
                 case BookEntry.BOOK_QUANTITY_3000:
-                    mQuantitySpinner.setSelection(3);
-                    break;
-                case BookEntry.BOOK_QUANTITY_2000:
                     mQuantitySpinner.setSelection(2);
                     break;
-                default:
+                case BookEntry.BOOK_QUANTITY_2000:
                     mQuantitySpinner.setSelection(1);
+                    break;
+                default:
+                    mQuantitySpinner.setSelection(0);
                     break;
             }
         }
@@ -299,6 +299,6 @@ public class BookstoreEditor extends AppCompatActivity implements LoaderManager.
         mSupplierNameEditText.setText("");
         mSupplierPhoneEditText.setText("");
 
-        mQuantitySpinner.setSelection(1);
+        mQuantitySpinner.setSelection(0);
     }
 }
