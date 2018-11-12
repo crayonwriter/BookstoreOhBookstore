@@ -98,7 +98,7 @@ public class BookstoreEditor extends AppCompatActivity implements LoaderManager.
         mPriceEditText = (EditText) findViewById(R.id.edit_book_price);
         mSupplierNameEditText = (EditText) findViewById(R.id.edit_supplier_name);
         mSupplierPhoneEditText = (EditText) findViewById(R.id.edit_supplier_phone);
-        mEditQuantity = (EditText) findViewById(R.id.quantity);
+        mEditQuantity = (EditText) findViewById(R.id.edit_quantity);
 
         // Setup OnTouchListeners on all the input fields, so we can determine if the user
         // has touched or modified them. This will let us know if there are unsaved changes
@@ -133,7 +133,6 @@ public class BookstoreEditor extends AppCompatActivity implements LoaderManager.
         values.put(BookEntry.COLUMN_BOOK_TITLE, titleString);
         values.put(BookEntry.COLUMN_BOOK_SUPPLIER_NAME, supplierNameString);
         values.put(BookEntry.COLUMN_BOOK_SUPPLIER_PHONE, supplierPhoneString);
-        values.put(BookEntry.COLUMN_BOOK_QUANTITY, quantityString);
 
         int quantity = 0;
         if (!TextUtils.isEmpty(quantityString)) {
@@ -310,7 +309,7 @@ public class BookstoreEditor extends AppCompatActivity implements LoaderManager.
             mPriceEditText.setText(price);
             mSupplierNameEditText.setText(supplierName);
             mSupplierPhoneEditText.setText(supplierPhone);
-            mEditQuantity.setText(quantity);
+            mEditQuantity.setText(Integer.toString(quantity));
         }
     }
 

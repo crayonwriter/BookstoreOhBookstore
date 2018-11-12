@@ -21,8 +21,19 @@
         android:textAppearance="?android:textAppearanceSmall"
         android:textColor="#AEB6BD" />
 
+    <TextView
+        android:id="@+id/quantity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/price"
+        android:fontFamily="sans-serif"
+        android:textAppearance="?android:textAppearanceSmall"
+        android:textColor="#AEB6BD" />
+
     <Button
         android:id="@+id/sale_button"
+        android:focusable="false"
+        android:onClick="increment"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"

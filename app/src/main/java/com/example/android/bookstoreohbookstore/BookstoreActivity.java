@@ -23,6 +23,7 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.android.bookstoreohbookstore.data.BookContract;
 import com.example.android.bookstoreohbookstore.data.BookContract.BookEntry;
 import com.example.android.bookstoreohbookstore.data.BookDbHelper;
 
@@ -111,11 +112,6 @@ public class BookstoreActivity extends AppCompatActivity implements LoaderManage
         }
         return super.onOptionsItemSelected(item);
     }
-
-    /**
-     * This method is called when the sale button is clicked.
-     */
-
 
     @Override
     public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
