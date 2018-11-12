@@ -21,6 +21,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.android.bookstoreohbookstore.data.BookContract.BookEntry;
 import com.example.android.bookstoreohbookstore.data.BookDbHelper;
@@ -43,6 +44,7 @@ public class BookstoreActivity extends AppCompatActivity implements LoaderManage
                 startActivity(intent);
             }
         });
+
         // Find the ListView which will be populated with the pet data
         ListView bookListView = (ListView) findViewById(R.id.listview_book);
         // Find and set empty view on the ListView, so that it only shows when the list has 0 items.
@@ -80,12 +82,13 @@ public class BookstoreActivity extends AppCompatActivity implements LoaderManage
         return true;
     }
 
+
     private void insertBook() {
 
         ContentValues values = new ContentValues();
         values.put(BookEntry.COLUMN_BOOK_TITLE, "Harry Potter");
         values.put(BookEntry.COLUMN_BOOK_PRICE, "30");
-        values.put(BookEntry.COLUMN_BOOK_QUANTITY, BookEntry.BOOK_QUANTITY_3000);
+        values.put(BookEntry.COLUMN_BOOK_QUANTITY, "50");
         values.put(BookEntry.COLUMN_BOOK_SUPPLIER_NAME, "Acme");
         values.put(BookEntry.COLUMN_BOOK_SUPPLIER_PHONE, "3335551212");
 
@@ -109,12 +112,18 @@ public class BookstoreActivity extends AppCompatActivity implements LoaderManage
         return super.onOptionsItemSelected(item);
     }
 
+    /**
+     * This method is called when the sale button is clicked.
+     */
+
+
     @Override
     public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
         String[] projection = {
                 BookEntry._ID,
                 BookEntry.COLUMN_BOOK_TITLE,
-                BookEntry.COLUMN_BOOK_PRICE
+                BookEntry.COLUMN_BOOK_PRICE,
+                BookEntry.COLUMN_BOOK_QUANTITY
         };
         return new CursorLoader(this,
                 BookEntry.CONTENT_URI,

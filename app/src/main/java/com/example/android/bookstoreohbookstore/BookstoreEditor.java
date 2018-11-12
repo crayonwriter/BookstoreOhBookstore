@@ -52,16 +52,7 @@ public class BookstoreEditor extends AppCompatActivity implements LoaderManager.
      */
     private EditText mSupplierPhoneEditText;
 
-    /**
-     * EditText field to enter the quantity of books
-     */
-    private Spinner mQuantitySpinner;
-
-    /**
-     * Quantity of books. The possible values are:
-     * 1 for 1000, 2 for 2000, 3 for 3000.
-     */
-    private int mQuantity = 1;
+    private EditText mEditQuantity;
 
     /**
      * Content URI for the existing book (null if it's a new book)
@@ -107,7 +98,7 @@ public class BookstoreEditor extends AppCompatActivity implements LoaderManager.
         mPriceEditText = (EditText) findViewById(R.id.edit_book_price);
         mSupplierNameEditText = (EditText) findViewById(R.id.edit_supplier_name);
         mSupplierPhoneEditText = (EditText) findViewById(R.id.edit_supplier_phone);
-        mQuantitySpinner = (Spinner) findViewById(R.id.spinner_quantity);
+        mEditQuantity = (EditText) findViewById(R.id.quantity);
 
         // Setup OnTouchListeners on all the input fields, so we can determine if the user
         // has touched or modified them. This will let us know if there are unsaved changes
@@ -116,48 +107,7 @@ public class BookstoreEditor extends AppCompatActivity implements LoaderManager.
         mPriceEditText.setOnTouchListener(mTouchListener);
         mSupplierNameEditText.setOnTouchListener(mTouchListener);
         mSupplierPhoneEditText.setOnTouchListener(mTouchListener);
-        mQuantitySpinner.setOnTouchListener(mTouchListener);
-
-        setupSpinner();
-    }
-
-    /**
-     * Setup the dropdown spinner that allows the user to select the quantity of books.
-     */
-    private void setupSpinner() {
-        // Create adapter for spinner. The list options are from the String array it will use
-        // the spinner will use the default layout
-        ArrayAdapter quantitySpinnerAdapter = ArrayAdapter.createFromResource(this,
-                R.array.array_quantity_options, android.R.layout.simple_spinner_item);
-
-        // Specify dropdown layout style - simple list view with 1 item per line
-        quantitySpinnerAdapter.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line);
-
-        // Apply the adapter to the spinner
-        mQuantitySpinner.setAdapter(quantitySpinnerAdapter);
-
-        // Set the integer mSelected to the constant values
-        mQuantitySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long l) {
-                String selection = (String) parent.getItemAtPosition(position);
-                if (!TextUtils.isEmpty(selection)) {
-                    if (selection.equals(getString(R.string.quantity_3000))) {
-                        mQuantity = BookEntry.BOOK_QUANTITY_3000; // 3000
-                    } else if (selection.equals(getString(R.string.quantity_2000))) {
-                        mQuantity = BookEntry.BOOK_QUANTITY_2000; // 2000
-                    } else {
-                        mQuantity = BookEntry.BOOK_QUANTITY_1000; // 1000
-                    }
-                }
-            }
-
-            // Because AdapterView is an abstract class, onNothingSelected must be defined
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-                mQuantity = BookEntry.BOOK_QUANTITY_1000; // 1000
-            }
-        });
+        mEditQuantity.setOnTouchListener(mTouchListener);
     }
 
     private void saveBook() {
@@ -165,6 +115,7 @@ public class BookstoreEditor extends AppCompatActivity implements LoaderManager.
         String priceString = mPriceEditText.getText().toString().trim();
         String supplierNameString = mSupplierNameEditText.getText().toString().trim();
         String supplierPhoneString = mSupplierPhoneEditText.getText().toString().trim();
+        String quantityString = mEditQuantity.getText().toString().trim();
 
         // Check if this is supposed to be a new book
         // and check if all the fields in the editor are blank
@@ -173,7 +124,7 @@ public class BookstoreEditor extends AppCompatActivity implements LoaderManager.
                 TextUtils.isEmpty(priceString) &&
                 TextUtils.isEmpty(supplierNameString) &&
                 TextUtils.isEmpty(supplierPhoneString) &&
-                mQuantity == BookEntry.BOOK_QUANTITY_1000) {
+                TextUtils.isEmpty(quantityString)) {
             // Since no fields were modified, we can return early without creating a new pet.
             // No need to create ContentValues and no need to do any ContentProvider operations.
             return;
@@ -182,7 +133,13 @@ public class BookstoreEditor extends AppCompatActivity implements LoaderManager.
         values.put(BookEntry.COLUMN_BOOK_TITLE, titleString);
         values.put(BookEntry.COLUMN_BOOK_SUPPLIER_NAME, supplierNameString);
         values.put(BookEntry.COLUMN_BOOK_SUPPLIER_PHONE, supplierPhoneString);
-        values.put(BookEntry.COLUMN_BOOK_QUANTITY, mQuantity);
+        values.put(BookEntry.COLUMN_BOOK_QUANTITY, quantityString);
+
+        int quantity = 0;
+        if (!TextUtils.isEmpty(quantityString)) {
+            quantity = Integer.parseInt(quantityString);
+        }
+        values.put(BookEntry.COLUMN_BOOK_QUANTITY, quantity);
 
         int price = 0;
         if (!TextUtils.isEmpty(priceString)) {
@@ -311,6 +268,7 @@ public class BookstoreEditor extends AppCompatActivity implements LoaderManager.
         // Show dialog that there are unsaved changes
         showUnsavedChangesDialog(discardButtonClickListener);
     }
+
     @Override
     public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
         String[] projection = {
@@ -352,22 +310,7 @@ public class BookstoreEditor extends AppCompatActivity implements LoaderManager.
             mPriceEditText.setText(price);
             mSupplierNameEditText.setText(supplierName);
             mSupplierPhoneEditText.setText(supplierPhone);
-
-
-            // Quantity is a dropdown spinner, so map the constant value from the database
-            // into one of the dropdown options (1 is 1000, 2 is 2000, 3 is 3000).
-            // Then call setSelection() so that option is displayed on screen as the current selection.
-            switch (quantity) {
-                case BookEntry.BOOK_QUANTITY_3000:
-                    mQuantitySpinner.setSelection(2);
-                    break;
-                case BookEntry.BOOK_QUANTITY_2000:
-                    mQuantitySpinner.setSelection(1);
-                    break;
-                default:
-                    mQuantitySpinner.setSelection(0);
-                    break;
-            }
+            mEditQuantity.setText(quantity);
         }
     }
 
@@ -378,8 +321,7 @@ public class BookstoreEditor extends AppCompatActivity implements LoaderManager.
         mPriceEditText.setText("");
         mSupplierNameEditText.setText("");
         mSupplierPhoneEditText.setText("");
-
-        mQuantitySpinner.setSelection(0);
+        mEditQuantity.setText("");
     }
 
     /**

@@ -54,38 +54,15 @@
                     android:text="@string/price_unit" />
             </RelativeLayout>
 
+            <EditText
+                android:id="@+id/quantity"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/category_quantity"
+                android:inputType="textCapWords" />
         </LinearLayout>
     </LinearLayout>
 
-    <!-- Quantity category -->
-    <LinearLayout
-        android:id="@+id/container_quantity"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <!-- Label -->
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/category_quantity" />
-
-        <!-- Input field -->
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="2"
-            android:orientation="vertical">
-
-            <!-- Quantity drop-down spinner -->
-            <Spinner
-                android:id="@+id/spinner_quantity"
-                android:layout_width="wrap_content"
-                android:layout_height="48dp"
-                android:paddingRight="16dp"
-                android:spinnerMode="dropdown" />
-        </LinearLayout>
-    </LinearLayout>
 
     <!-- SUPPLIER NAME CATEGORY -->
     <LinearLayout
