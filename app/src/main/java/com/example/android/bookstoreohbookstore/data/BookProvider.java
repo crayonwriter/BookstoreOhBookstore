@@ -128,7 +128,12 @@ public class BookProvider extends ContentProvider {
             throw new IllegalArgumentException("Book requires a title");
         }
 
+
         Integer price = values.getAsInteger(BookEntry.COLUMN_BOOK_PRICE);
+        if (price == null) {
+            throw new IllegalArgumentException("Book requires a price");
+        }
+
         if (price != null && price < 0) {
             throw new IllegalArgumentException("Book requires a valid price");
         }
@@ -139,9 +144,13 @@ public class BookProvider extends ContentProvider {
         }
 
         Integer quantity = values.getAsInteger(BookEntry.COLUMN_BOOK_QUANTITY);
+        if (quantity == null) {
+            throw new IllegalArgumentException("Book requires a quantity");
+        }
         if (quantity == null || !BookEntry.isValidQuantity(quantity)) {
             throw new IllegalArgumentException("Book requires valid quantity");
         }
+
 
         int lengthPhone = String.valueOf(price).length();
 
@@ -207,6 +216,7 @@ public class BookProvider extends ContentProvider {
                 if (price != null && price < 0) {
                     throw new IllegalArgumentException("Book requires a valid price");
                 }
+
 
                 if (values.containsKey(COLUMN_BOOK_SUPPLIER_NAME)) {
                     String supplierName = values.getAsString(BookEntry.COLUMN_BOOK_SUPPLIER_NAME);

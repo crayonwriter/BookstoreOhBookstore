@@ -43,7 +43,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/hint_book_price"
-                android:inputType="textCapWords" />
+                android:inputType="number" />
                 <!-- Units for price (dollars) -->
                 <TextView
                     android:id="@+id/label_price_units"
@@ -59,7 +59,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/category_quantity"
-                android:inputType="textCapWords" />
+                android:inputType="number" />
 
 
         </LinearLayout>
