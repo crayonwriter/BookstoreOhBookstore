@@ -59,6 +59,7 @@ public class BookstoreEditor extends AppCompatActivity implements LoaderManager.
     private Button mSaleMadeButton;
     private Button mSaleLostButton;
     private Button mCallToOrder;
+    private Button mDeleteBook;
 
     /**
      * Content URI for the existing book (null if it's a new book)
@@ -108,6 +109,7 @@ public class BookstoreEditor extends AppCompatActivity implements LoaderManager.
         mSaleMadeButton = findViewById(R.id.sale_made_button);
         mSaleLostButton = findViewById(R.id.sale_lost_button);
         mCallToOrder = findViewById(R.id.call_button);
+        mDeleteBook = findViewById(R.id.delete_button);
 
         mSaleMadeButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -142,6 +144,12 @@ public class BookstoreEditor extends AppCompatActivity implements LoaderManager.
             }
         });
 
+        mDeleteBook.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showDeleteConfirmationDialog();
+            }
+        });
         // Setup OnTouchListeners on all the input fields, so we can determine if the user
         // has touched or modified them. This will let us know if there are unsaved changes
         // or not, if the user tries to leave the editor without saving.

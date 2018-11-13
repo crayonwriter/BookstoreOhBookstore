@@ -124,6 +124,17 @@
         android:textAllCaps="true" />
 
     <Button
+        android:id="@+id/delete_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginLeft="24dp"
+        android:layout_marginRight="24dp"
+        android:focusable="false"
+        android:text="@string/action_delete"
+        android:textAllCaps="true" />
+
+    <Button
         android:id="@+id/call_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
