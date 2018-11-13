@@ -1,6 +1,7 @@
 package com.example.android.bookstoreohbookstore;
 
 import android.app.AlertDialog;
+import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -21,6 +22,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
@@ -53,6 +55,10 @@ public class BookstoreEditor extends AppCompatActivity implements LoaderManager.
     private EditText mSupplierPhoneEditText;
 
     private EditText mEditQuantity;
+
+    private Button mSaleMadeButton;
+    private Button mSaleLostButton;
+    private Button mCallToOrder;
 
     /**
      * Content URI for the existing book (null if it's a new book)
@@ -99,6 +105,42 @@ public class BookstoreEditor extends AppCompatActivity implements LoaderManager.
         mSupplierNameEditText = (EditText) findViewById(R.id.edit_supplier_name);
         mSupplierPhoneEditText = (EditText) findViewById(R.id.edit_supplier_phone);
         mEditQuantity = (EditText) findViewById(R.id.edit_quantity);
+        mSaleMadeButton = findViewById(R.id.sale_made_button);
+        mSaleLostButton = findViewById(R.id.sale_lost_button);
+        mCallToOrder = findViewById(R.id.call_button);
+
+        mSaleMadeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                int quantity = Integer.valueOf(mEditQuantity.getText().toString());
+
+                if (quantity > 0) {
+                    quantity = quantity - 1;
+                    mEditQuantity.setText(Integer.toString(quantity));
+                }
+            }
+        });
+
+        mSaleLostButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                int quantity = Integer.valueOf(mEditQuantity.getText().toString());
+                if (quantity >= 0) {
+                    quantity = quantity + 1;
+                    mEditQuantity.setText(Integer.toString(quantity));
+                }
+            }
+        });
+
+        mCallToOrder.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(Intent.ACTION_DIAL);
+                intent.setData(Uri.parse("tel:" + mSupplierPhoneEditText.getText().toString()));
+                if (intent.resolveActivity(getPackageManager()) != null)
+                    startActivity(intent);
+            }
+        });
 
         // Setup OnTouchListeners on all the input fields, so we can determine if the user
         // has touched or modified them. This will let us know if there are unsaved changes
@@ -108,6 +150,8 @@ public class BookstoreEditor extends AppCompatActivity implements LoaderManager.
         mSupplierNameEditText.setOnTouchListener(mTouchListener);
         mSupplierPhoneEditText.setOnTouchListener(mTouchListener);
         mEditQuantity.setOnTouchListener(mTouchListener);
+
+
     }
 
     private void saveBook() {
@@ -181,6 +225,7 @@ public class BookstoreEditor extends AppCompatActivity implements LoaderManager.
             }
         }
     }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -380,6 +425,7 @@ public class BookstoreEditor extends AppCompatActivity implements LoaderManager.
         alertDialog.show();
     }
 
+
     /**
      * Perform the deletion of the pet in the database.
      */
@@ -404,4 +450,5 @@ public class BookstoreEditor extends AppCompatActivity implements LoaderManager.
         // Close the activity
         finish();
     }
+
 }
