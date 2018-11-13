@@ -29,6 +29,8 @@ import android.widget.Toast;
 
 import com.example.android.bookstoreohbookstore.data.BookContract.BookEntry;
 
+import org.w3c.dom.Text;
+
 /**
  * Allows user to create a new pet or edit an existing one.
  */
@@ -77,6 +79,7 @@ public class BookstoreEditor extends AppCompatActivity implements LoaderManager.
             return false;
         }
     };
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -114,11 +117,14 @@ public class BookstoreEditor extends AppCompatActivity implements LoaderManager.
         mSaleMadeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                int quantity = Integer.valueOf(mEditQuantity.getText().toString());
-
-                if (quantity > 0) {
-                    quantity = quantity - 1;
-                    mEditQuantity.setText(Integer.toString(quantity));
+                if (!TextUtils.isEmpty(mEditQuantity.getText().toString())) {
+                    int quantity = Integer.valueOf(mEditQuantity.getText().toString());
+                    if (quantity > 0) {
+                        quantity = quantity - 1;
+                        mEditQuantity.setText(Integer.toString(quantity));
+                    }
+                } else {
+                    Toast.makeText(BookstoreEditor.this, "Quantity must be entered", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -126,10 +132,14 @@ public class BookstoreEditor extends AppCompatActivity implements LoaderManager.
         mSaleLostButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                int quantity = Integer.valueOf(mEditQuantity.getText().toString());
-                if (quantity >= 0) {
-                    quantity = quantity + 1;
-                    mEditQuantity.setText(Integer.toString(quantity));
+                if (!TextUtils.isEmpty(mEditQuantity.getText().toString())) {
+                    int quantity = Integer.valueOf(mEditQuantity.getText().toString());
+                    if (quantity >= 0) {
+                        quantity = quantity + 1;
+                        mEditQuantity.setText(Integer.toString(quantity));
+                    }
+                } else {
+                    Toast.makeText(BookstoreEditor.this, "Quantity must be entered", Toast.LENGTH_SHORT).show();
                 }
             }
         });
